@@ -1,5 +1,4 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsEmail, IsUrl } from 'class-validator';
 import { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
@@ -16,18 +15,20 @@ export class User {
   password: string;
 
   // 昵称
-  @Prop({ required: true, unique: true, maxlength: 20, minlength: 4 })
+  @Prop({ required: true, unique: true, maxlength: 20 })
   nickname: string;
 
   // 邮箱
   @Prop({ required: true, unique: true })
-  @IsEmail()
   email: string;
 
   // 博客地址
   @Prop({ maxlength: 200 })
-  @IsUrl()
   blog: string;
+
+  // 头像地址
+  @Prop({ maxlength: 200 })
+  avatar: string;
 
   // 拥有的权限
   @Prop({ required: true })
@@ -36,6 +37,14 @@ export class User {
   // 个人简介
   @Prop({ maxlength: 200 })
   description: string;
+
+  // 注册时间
+  @Prop({ default: Date.now })
+  createdAt: Date;
+
+  // 最后登录时间
+  @Prop({ default: Date.now })
+  lastLoginAt: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -8,7 +8,7 @@ export type TagDocument = Tag & Document;
 @Schema()
 export class Tag {
   // 标签名
-  @Prop({ required: true, maxlength: 20 })
+  @Prop({ required: true, maxlength: 20, unique: true })
   name: string;
 }
 

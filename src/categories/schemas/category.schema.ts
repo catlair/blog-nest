@@ -8,7 +8,7 @@ export type CategoryDocument = Document & Category;
 @Schema()
 export class Category {
   // 分类名称
-  @Prop({ required: true, maxlength: 20 })
+  @Prop({ required: true, maxlength: 20, unique: true })
   name: string;
 
   // 分类描述

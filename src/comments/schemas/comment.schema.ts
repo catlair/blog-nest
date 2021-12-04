@@ -18,12 +18,16 @@ export class Comment {
   createTime: Date;
 
   // 父评论
-  @Prop({ required: true, ref: 'Comment' })
+  @Prop({ ref: 'Comment' })
   parent: string;
 
-  // 分类
-  @Prop({ required: true, ref: 'Category' })
-  category: string;
+  // 评论者
+  @Prop({ required: true, ref: 'User' })
+  user: string;
+
+  // 评论的文章
+  @Prop({ required: true, ref: 'Article' })
+  article: string;
 }
 
-export const CategorySchema = SchemaFactory.createForClass(Comment);
+export const CommentSchema = SchemaFactory.createForClass(Comment);

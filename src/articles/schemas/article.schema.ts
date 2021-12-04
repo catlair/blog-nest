@@ -24,6 +24,14 @@ export class Article {
   @Prop({ required: true, default: Date.now })
   @IsDate()
   updateTime: Date;
+
+  // 分类
+  @Prop({ required: true, ref: 'Category' })
+  category: string;
+
+  // 标签
+  @Prop({ required: true, ref: 'Tag' })
+  tags: string[];
 }
 
 export const ArticleSchema = SchemaFactory.createForClass(Article);
