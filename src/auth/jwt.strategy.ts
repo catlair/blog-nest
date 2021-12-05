@@ -6,6 +6,13 @@ import { UsersService } from '../users/users.service';
 import { Configuration } from '../config/configuration';
 import { ConfigService } from '@nestjs/config';
 
+// jwt strategy
+// 用于验证用户的token是否合法
+
+type JwtUserType = {
+  id: string;
+};
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
@@ -18,7 +25,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     } as StrategyOptions);
   }
 
-  async validate(user): Promise<any> {
+  async validate(user: JwtUserType) {
     return await this.usersService.findOne(user.id);
   }
 }

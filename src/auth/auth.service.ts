@@ -1,6 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '../users/schemas/user.schema';
+import { MgReType } from '../types';
 
 @Injectable()
 export class AuthService {
@@ -9,21 +11,26 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.usersService.findOneByName(username);
+  async validateUser(
+    username: string,
+    password: string,
+  ): Promise<Omit<MgReType<User>, 'password'>> {
+    const user = await this.usersService
+      .findOneByName(username)
+      .select('+password');
+
     if (user && user.password === password) {
-      // eslint-disable-next-line
-      const { password, ...result } = user;
-      return result;
+      return user;
     }
     throw new BadRequestException('用户名或密码错误');
   }
 
-  async login(user: any) {
-    console.log(user);
+  async login(user: MgReType<User>) {
+    const { username, _id } = user;
 
-    const payload = { username: user.username };
+    const payload = { username, id: _id };
     return {
+      username,
       access_token: this.jwtService.sign(payload),
     };
   }

@@ -3,6 +3,9 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
+// loacal strategy
+// 用于登录
+
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly authService: AuthService) {
@@ -12,7 +15,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     } as IStrategyOptionsWithRequest);
   }
 
-  async validate(username: string, password: string): Promise<any> {
+  async validate(username: string, password: string) {
     return await this.authService.validateUser(username, password);
   }
 }

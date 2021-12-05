@@ -1,8 +1,10 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { MgReType } from 'src/types';
+import { User } from 'src/users/schemas/user.schema';
 import { LocalAuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { LoginUserDto } from './dto/login-user.dto';
+import { UserReq } from './decorator/users.decorator';
 
 @Controller('auth')
 @ApiTags('权限验证')
@@ -11,7 +13,7 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Body() loginUserDto: LoginUserDto) {
-    return this.authService.login(loginUserDto);
+  async login(@UserReq() user: MgReType<User>) {
+    return this.authService.login(user);
   }
 }
