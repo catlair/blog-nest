@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -23,9 +25,11 @@ export class UsersController {
   }
 
   @Get()
+  // @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: '查找所有用户' })
-  findAll() {
-    return this.usersService.findAll();
+  // @ApiBearerAuth()
+  async findAll(@Query('pn') page: string, @Query('ps') size: string) {
+    return await this.usersService.findAll(+page, +size);
   }
 
   @Get(':id')

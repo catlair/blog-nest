@@ -14,10 +14,25 @@ export class AuthService {
   async validateUser(
     username: string,
     password: string,
+    isEmail = false,
   ): Promise<Omit<MgReType<User>, 'password'>> {
-    const user = await this.usersService
-      .findOneByName(username)
-      .select('+password');
+    if (isEmail) {
+      return await this.validateEmail(username, password);
+    }
+    return await this.validateUsername(username, password);
+  }
+
+  async validateEmail(email: string, password: string) {
+    const user = await this.usersService.find({ email }).select('+password');
+
+    if (user && user.password === password) {
+      return user;
+    }
+    throw new BadRequestException('邮箱或密码错误');
+  }
+
+  async validateUsername(username: string, password: string) {
+    const user = await this.usersService.find({ username }).select('+password');
 
     if (user && user.password === password) {
       return user;
@@ -25,13 +40,14 @@ export class AuthService {
     throw new BadRequestException('用户名或密码错误');
   }
 
-  async login(user: MgReType<User>) {
-    const { username, _id } = user;
-
-    const payload = { username, id: _id };
+  async login(user: MgReType<User>, key: 'username' | 'email' = 'username') {
     return {
-      username,
-      access_token: this.jwtService.sign(payload),
+      [key]: user[key],
+      id: user._id,
+      access_token: this.jwtService.sign({
+        [key]: user[key],
+        id: user._id,
+      }),
     };
   }
 }

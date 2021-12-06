@@ -8,6 +8,7 @@ import { CommentsModule } from './comments/comments.module';
 import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
 import { configuration, Configuration } from './config/configuration';
+import { BlogModule } from './blog/blog.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { configuration, Configuration } from './config/configuration';
     CommentsModule,
     CategoriesModule,
     AuthModule,
+    BlogModule,
   ],
 })
 export class AppModule {}

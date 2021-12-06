@@ -9,12 +9,12 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
-    Logger.error(`${request.method} ${request.url}`, exception);
+    Logger.warn(`${request.method} ${request.url}`, exception);
 
     response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       code: exception?.code || -1,
       url: request.url,
-      msg: '服务器异常',
+      msg: exception?.message || '服务器异常',
     });
   }
 }

@@ -6,6 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { isArray } from 'lodash';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -15,12 +16,17 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
 
-    const message = exception.message;
-    Logger.log(`${request.method} ${request.url}`, message);
+    const exceptionMessage = exception.message;
+    const originRes: any = exception.getResponse();
+
+    Logger.log(`${request.method} ${request.url}`, exceptionMessage);
+
+    const { message } = originRes;
+    const resMsg = message ? (isArray(message) ? message[0] : message) : '';
 
     // 错误码为 1
     const errorResponse = {
-      msg: message,
+      msg: resMsg || exceptionMessage,
       code: status || 1,
       url: request.url,
     };

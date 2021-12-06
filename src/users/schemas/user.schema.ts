@@ -15,7 +15,7 @@ export class User {
   password: string;
 
   // 昵称
-  @Prop({ required: true, unique: true, maxlength: 20 })
+  @Prop({ required: true, maxlength: 20 })
   nickname: string;
 
   // 邮箱
@@ -31,8 +31,8 @@ export class User {
   avatar: string;
 
   // 拥有的权限
-  @Prop({ required: true })
-  permissions: string[];
+  @Prop()
+  roles: string[];
 
   // 个人简介
   @Prop({ maxlength: 200 })
