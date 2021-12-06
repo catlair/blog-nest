@@ -1,8 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsDate } from 'class-validator';
-import { Document } from 'mongoose';
+import * as mongoose from 'mongoose';
+import {
+  ArticleStatusEnum,
+  ArticleVisibilityEnum,
+} from '../../enums/article-status.enums';
 
-export type ArticleDocument = Article & Document;
+export type ArticleDocument = Article & mongoose.Document;
 
 // 文章
 @Schema()
@@ -15,15 +19,20 @@ export class Article {
   @Prop({ required: true, maxlength: 2000 })
   content: string;
 
+  // 作者
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  // 这里暂时不知道，按照官网会报错
+  author: any;
+
   // 创建时间
   @Prop({ required: true, default: Date.now })
   @IsDate()
-  createTime: Date;
+  createAt: Date;
 
   // 更新时间
   @Prop({ required: true, default: Date.now })
   @IsDate()
-  updateTime: Date;
+  updateAt: Date;
 
   // 分类
   @Prop({ required: true, ref: 'Category' })
@@ -32,6 +41,18 @@ export class Article {
   // 标签
   @Prop({ required: true, ref: 'Tag' })
   tags: string[];
+
+  // 可见性
+  @Prop({ enum: ArticleVisibilityEnum, default: ArticleVisibilityEnum.PUBLIC })
+  visibility: number;
+
+  // 状态  0: 草稿 1: 已发布 2: 已删除 3: 未发布
+  @Prop({ enum: ArticleStatusEnum, default: ArticleStatusEnum.DRAFT })
+  status: number;
+
+  // 置顶
+  @Prop({ default: false })
+  isTop: boolean;
 }
 
 export const ArticleSchema = SchemaFactory.createForClass(Article);

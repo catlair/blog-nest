@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateArticleDto } from './dto/create-article.dto';
@@ -12,22 +12,36 @@ export class ArticlesService {
   ) {}
 
   create(createArticleDto: CreateArticleDto) {
-    return 'This action adds a new article';
+    return this.articleModel.create(createArticleDto);
   }
 
-  findAll() {
-    return `This action returns all article`;
+  async findAll(page: number, size: number) {
+    if (!page) {
+      throw new BadRequestException('缺少参数 pn');
+    }
+    if (!size) {
+      throw new BadRequestException('缺少参数 ps');
+    }
+
+    if (size > 50) {
+      throw new BadRequestException('ps 最大值为 50');
+    }
+
+    return await this.articleModel
+      .find({})
+      .skip((page - 1) * size)
+      .limit(size);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} article`;
+  findOne(id: string) {
+    return this.articleModel.findOne({ _id: id });
   }
 
-  update(id: number, updateArticleDto: UpdateArticleDto) {
-    return `This action updates a #${id} article`;
+  update(id: string, updateArticleDto: UpdateArticleDto): any {
+    return this.articleModel.updateOne({ _id: id }, updateArticleDto);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} article`;
   }
 }

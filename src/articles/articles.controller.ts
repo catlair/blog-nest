@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ArticlesService } from './articles.service';
@@ -23,22 +24,22 @@ export class ArticlesController {
   }
 
   @Get()
-  findAll() {
-    return this.articlesService.findAll();
+  async findAll(@Query('pn') page: string, @Query('ps') size: string) {
+    return await this.articlesService.findAll(+page, +size);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.articlesService.findOne(+id);
+    return this.articlesService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
-    return this.articlesService.update(+id, updateArticleDto);
+    return this.articlesService.update(id, updateArticleDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.articlesService.remove(+id);
+    return this.articlesService.remove(id);
   }
 }
