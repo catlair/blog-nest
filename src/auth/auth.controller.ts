@@ -4,7 +4,7 @@ import { MgReType } from 'src/types';
 import { User } from 'src/users/schemas/user.schema';
 import { LocalAuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { UserReq } from './decorator/users.decorator';
+import { UserReq } from '../decorators/users.decorator';
 import { LoginUserDto } from './dto/login-user.dto';
 
 @Controller('auth')

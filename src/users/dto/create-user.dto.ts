@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, IsUrl, IsArray, IsDefined } from 'class-validator';
+import { Role } from '../../enums/role.enum';
 
 export class CreateUserDto {
   // 用户名
@@ -64,7 +65,7 @@ export class CreateUserDto {
     example: ['admin'],
     required: false,
   })
-  roles: string[];
+  roles: Role[];
 
   // 个人简介
   @IsString({ message: '个人简介必须是字符串' })

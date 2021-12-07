@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { Role } from '../../enums/role.enum';
 
 export type UserDocument = User & Document;
 
@@ -34,7 +35,7 @@ export class User {
 
   // 拥有的权限
   @Prop()
-  roles: string[];
+  roles: Role[];
 
   // 个人简介
   @Prop({ maxlength: 200 })
