@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -14,17 +22,17 @@ export class CommentsController {
   }
 
   @Get()
-  findAll() {
-    return this.commentsService.findAll();
+  async findAll(@Query('pn') page: string, @Query('ps') size: string) {
+    return await this.commentsService.findAll(+page, +size);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.commentsService.findOne(+id);
+    return this.commentsService.findOne(id);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.commentsService.remove(+id);
+    return this.commentsService.remove(id);
   }
 }

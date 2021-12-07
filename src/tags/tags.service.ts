@@ -9,18 +9,18 @@ export class TagsService {
   constructor(@InjectModel(Tag.name) private tagModel: Model<TagDocument>) {}
 
   create(createTagDto: CreateTagDto) {
-    return 'This action adds a new tag';
+    return this.tagModel.create(createTagDto);
   }
 
   findAll() {
-    return `This action returns all tag`;
+    return this.tagModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tag`;
+  findOne(id: string) {
+    return `查找所有${id}的文章`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tag`;
+  remove(id: string) {
+    return this.tagModel.findByIdAndRemove(id);
   }
 }

@@ -20,11 +20,11 @@ export class TagsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tagsService.findOne(+id);
+    return this.tagsService.findOne(id);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tagsService.remove(+id);
+    return this.tagsService.remove(id);
   }
 }

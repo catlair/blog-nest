@@ -4,7 +4,9 @@ import { Document } from 'mongoose';
 export type UserDocument = User & Document;
 
 // 用户
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class User {
   // 账号名
   @Prop({ required: true, unique: true, maxlength: 20, minlength: 4 })
@@ -37,10 +39,6 @@ export class User {
   // 个人简介
   @Prop({ maxlength: 200 })
   description: string;
-
-  // 注册时间
-  @Prop({ default: Date.now })
-  createdAt: Date;
 
   // 最后登录时间
   @Prop({ default: Date.now })

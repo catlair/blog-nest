@@ -12,22 +12,22 @@ export class CategoriesService {
   ) {}
 
   create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+    return this.categoryModel.create(createCategoryDto);
   }
 
   findAll() {
-    return `This action returns all category`;
+    return this.categoryModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  findOne(id: string) {
+    return `返回分类id为${id}的文章`;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  update(id: string, updateCategoryDto: UpdateCategoryDto): any {
+    return this.categoryModel.updateOne({ _id: id }, updateCategoryDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  remove(id: string) {
+    return this.categoryModel.findByIdAndRemove(id);
   }
 }

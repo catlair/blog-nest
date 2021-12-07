@@ -1,5 +1,4 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsHexColor } from 'class-validator';
 import { Document } from 'mongoose';
 
 export type CategoryDocument = Document & Category;
@@ -15,13 +14,8 @@ export class Category {
   @Prop({ maxlength: 100 })
   description: string;
 
-  // 分类父级
-  @Prop({ ref: 'Category' })
-  parent: string;
-
   // 分类颜色
   @Prop({ maxlength: 7, default: '#ffffff' })
-  @IsHexColor()
   color: string;
 }
 

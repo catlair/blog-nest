@@ -15,7 +15,7 @@ export class ArticlesService {
     return this.articleModel.create(createArticleDto);
   }
 
-  async findAll(page: number, size: number) {
+  async findAll(page = 1, size = 20) {
     if (!page) {
       throw new BadRequestException('缺少参数 pn');
     }
@@ -41,7 +41,7 @@ export class ArticlesService {
     return this.articleModel.updateOne({ _id: id }, updateArticleDto);
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} article`;
+  remove(id: string): any {
+    return this.articleModel.deleteOne({ _id: id });
   }
 }

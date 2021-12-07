@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -10,18 +10,32 @@ export class CommentsService {
     @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
   ) {}
   create(createCommentDto: CreateCommentDto) {
-    return 'This action adds a new comment';
+    return this.commentModel.create(createCommentDto);
   }
 
-  findAll() {
-    return `This action returns all comment`;
+  async findAll(page = 1, size = 20) {
+    if (!page) {
+      throw new BadRequestException('缺少参数 pn');
+    }
+    if (!size) {
+      throw new BadRequestException('缺少参数 ps');
+    }
+
+    if (size > 50) {
+      throw new BadRequestException('ps 最大值为 50');
+    }
+
+    return await this.commentModel
+      .find({})
+      .skip((page - 1) * size)
+      .limit(size);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comment`;
+  findOne(id: string) {
+    return this.commentModel.findById(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
+  remove(id: string) {
+    return this.commentModel.findByIdAndRemove(id);
   }
 }

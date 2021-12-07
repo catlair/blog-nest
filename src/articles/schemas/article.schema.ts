@@ -1,5 +1,4 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsDate } from 'class-validator';
 import * as mongoose from 'mongoose';
 import {
   ArticleStatusEnum,
@@ -9,7 +8,9 @@ import {
 export type ArticleDocument = Article & mongoose.Document;
 
 // 文章
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class Article {
   // 标题
   @Prop({ required: true, maxlength: 100 })
@@ -23,16 +24,6 @@ export class Article {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   // 这里暂时不知道，按照官网会报错
   author: any;
-
-  // 创建时间
-  @Prop({ required: true, default: Date.now })
-  @IsDate()
-  createAt: Date;
-
-  // 更新时间
-  @Prop({ required: true, default: Date.now })
-  @IsDate()
-  updateAt: Date;
 
   // 分类
   @Prop({ required: true, ref: 'Category' })
