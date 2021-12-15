@@ -4,6 +4,7 @@ import {
   ArgumentsHost,
   HttpException,
   Logger,
+  HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { isArray } from 'lodash';
@@ -31,6 +32,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
       url: request.url,
     };
 
-    response.status(status).json(errorResponse);
+    response.status(HttpStatus.OK).json(errorResponse);
   }
 }

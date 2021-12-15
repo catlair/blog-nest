@@ -9,6 +9,4 @@ export enum Role {
   Author = 'author',
   // 管理员
   Admin = 'admin',
-  // 超级管理员
-  Super = 'super',
 }

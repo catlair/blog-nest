@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
-import { ArticlesModule } from './articles/articles.module';
-import { TagsModule } from './tags/tags.module';
-import { CommentsModule } from './comments/comments.module';
-import { CategoriesModule } from './categories/categories.module';
-import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './modules/user/users.module';
+import { ArticlesModule } from './modules/articles/articles.module';
+import { TagsModule } from './modules/tags/tags.module';
+import { CommentsModule } from './modules/comments/comments.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { configuration, Configuration } from './config/configuration';
-import { BlogModule } from './blog/blog.module';
+import { BlogModule } from './modules/blog/blog.module';
+import { EmailModule } from './modules/email/email.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { BlogModule } from './blog/blog.module';
     CategoriesModule,
     AuthModule,
     BlogModule,
+    EmailModule,
   ],
 })
 export class AppModule {}
