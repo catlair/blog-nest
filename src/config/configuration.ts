@@ -14,11 +14,13 @@ const configuration = () => ({
   cacheTTl: parseInt(process.env.CACHE_TTL, 10) || 300,
 });
 
-type EnvType = {
+// 这里需要自己写，使用 NodeJS.ProcessEnv 的类型将不会提示错误字段
+
+interface EnvType {
   /** JWT 密匙 */
   JWT_SECRET: string;
   /** 运行环境 */
-  NODE_ENV: string;
+  NODE_ENV: 'development' | 'production';
   /** 数据库地址 */
   MONGODB_URI: string;
   /** 盐 */
@@ -26,15 +28,16 @@ type EnvType = {
   /** 不使用 redis 进行缓存 */
   REDIS_DISABLE: string;
   // 下面是非直接使用的环境变量
-  PORT: string;
+  PORT?: string;
   EMAIL_HOST: string;
-  EMAIL_PORT: string;
+  EMAIL_PORT?: string;
   EMAIL_USER: string;
   EMAIL_PASS: string;
-  REDIS_HOST: string;
-  REDIS_PORT: string;
-  CACHE_TTL: string;
-};
+  REDIS_HOST?: string;
+  REDIS_PORT?: string;
+  CACHE_TTL?: string;
+  REDIS_PASSWORD?: string;
+}
 
 export type Configuration = ReturnType<typeof configuration> & EnvType;
 
