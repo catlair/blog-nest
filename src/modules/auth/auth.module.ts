@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersModule } from '../user/users.module';
 import { PassportModule } from '@nestjs/passport';
@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Configuration } from '../../config/configuration';
 import { JwtStrategy } from './jwt.strategy';
+import { CacheConfigService } from '../redis/redis.service';
 
 @Module({
   imports: [
@@ -19,6 +20,9 @@ import { JwtStrategy } from './jwt.strategy';
         secret: configService.get('JWT_SECRET'),
         signOptions: { expiresIn: '1d' },
       }),
+    }),
+    CacheModule.registerAsync({
+      useClass: CacheConfigService,
     }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],

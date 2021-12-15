@@ -15,7 +15,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Auth, AuthUnlogin, UserReq } from '../../decorators';
 import { Role } from '../../enums/role.enum';
-import { MgReType } from '../../types';
+import type { MgReType } from '@/types';
 import { User } from './schemas/user.schema';
 import { PageSizeQueryDto } from '../../common/dto/pagesize-query.dto';
 

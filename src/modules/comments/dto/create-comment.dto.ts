@@ -4,7 +4,7 @@
 // 当 type 为 2 时，bid 为必填，pid 无效
 
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDefined, IsEnum, IsNumber, IsString, Length } from 'class-validator';
+import { IsDefined, IsEnum, IsString, Length } from 'class-validator';
 import { Types } from 'mongoose';
 import { CommentsTypeEnum } from 'src/enums/comments.enums';
 
