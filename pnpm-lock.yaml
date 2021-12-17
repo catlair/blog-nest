@@ -12,6 +12,7 @@ specifiers:
   '@nestjs/platform-express': ^8.2.3
   '@nestjs/schematics': ^8.0.5
   '@nestjs/swagger': ^5.1.5
+  '@nestjs/throttler': ^2.0.0
   '@types/bcryptjs': ^2.4.2
   '@types/cache-manager': ^3.4.2
   '@types/express': ^4.17.13
@@ -32,14 +33,15 @@ specifiers:
   eslint: ^8.4.0
   eslint-config-prettier: ^8.3.0
   eslint-plugin-prettier: ^4.0.0
+  ioredis: ^4.28.2
   lodash: ^4.17.21
   mongoose: ^6.0.14
+  nestjs-throttler-storage-redis: ^0.1.18
   nodemailer: ^6.7.2
   passport: ^0.5.0
   passport-jwt: ^4.0.0
   passport-local: ^1.0.0
   prettier: ^2.5.0
-  redis: ^4.0.1
   reflect-metadata: ^0.1.13
   rimraf: ^3.0.2
   rxjs: ^7.4.0
@@ -61,6 +63,7 @@ dependencies:
   '@nestjs/passport': registry.npmmirror.com/@nestjs/passport/8.0.1_42124d4eb17a2eed3a87b6c20a6165ac
   '@nestjs/platform-express': registry.npmmirror.com/@nestjs/platform-express/8.2.3_4e195730d90113ce1578bd999274c7a8
   '@nestjs/swagger': registry.npmmirror.com/@nestjs/swagger/5.1.5_e9707470d1e9cbf747a86c8b913e1d90
+  '@nestjs/throttler': registry.npmmirror.com/@nestjs/throttler/2.0.0_9bdbff8c48260a6971831c56bdd8b21e
   bcryptjs: registry.nlark.com/bcryptjs/2.4.3
   cache-manager: registry.npmmirror.com/cache-manager/3.6.0
   cache-manager-redis-store: registry.npmmirror.com/cache-manager-redis-store/2.0.0
@@ -68,13 +71,14 @@ dependencies:
   class-validator: registry.npmmirror.com/class-validator/0.13.2
   dayjs: registry.nlark.com/dayjs/1.10.7
   ejs: registry.npmmirror.com/ejs/3.1.6
+  ioredis: registry.npmmirror.com/ioredis/4.28.2
   lodash: registry.nlark.com/lodash/4.17.21
   mongoose: registry.npmmirror.com/mongoose/6.0.14
+  nestjs-throttler-storage-redis: registry.npmmirror.com/nestjs-throttler-storage-redis/0.1.18_a99dc36a1f343322349691605c5f5d09
   nodemailer: registry.npmmirror.com/nodemailer/6.7.2
   passport: registry.npmmirror.com/passport/0.5.0
   passport-jwt: registry.npmmirror.com/passport-jwt/4.0.0
   passport-local: registry.npmmirror.com/passport-local/1.0.0
-  redis: registry.npmmirror.com/redis/4.0.1
   reflect-metadata: registry.nlark.com/reflect-metadata/0.1.13
   rimraf: registry.nlark.com/rimraf/3.0.2
   rxjs: registry.npmmirror.com/rxjs/7.4.0
@@ -616,6 +620,12 @@ packages:
       is-regex: registry.nlark.com/is-regex/1.1.4
     dev: false
 
+  registry.nlark.com/charenc/0.0.2:
+    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/charenc/download/charenc-0.0.2.tgz}
+    name: charenc
+    version: 0.0.2
+    dev: false
+
   registry.nlark.com/chrome-trace-event/1.0.3:
     resolution: {integrity: sha1-EBXs7UdB4V0GZkqVfbv1DQQeJqw=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/chrome-trace-event/download/chrome-trace-event-1.0.3.tgz}
     name: chrome-trace-event
@@ -783,6 +793,12 @@ packages:
       shebang-command: registry.nlark.com/shebang-command/2.0.0
       which: registry.nlark.com/which/2.0.2
     dev: true
+
+  registry.nlark.com/crypt/0.0.2:
+    resolution: {integrity: sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/crypt/download/crypt-0.0.2.tgz}
+    name: crypt
+    version: 0.0.2
+    dev: false
 
   registry.nlark.com/css-select/1.2.0:
     resolution: {integrity: sha1-KzoRBTnFNV8c2NMUYj6HCxIeyFg=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/css-select/download/css-select-1.2.0.tgz}
@@ -2007,6 +2023,16 @@ packages:
     version: 1.3.6
     dev: true
 
+  registry.nlark.com/md5/2.3.0:
+    resolution: {integrity: sha1-w9qaaq46MLRreww0m4exENw72k8=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/md5/download/md5-2.3.0.tgz}
+    name: md5
+    version: 2.3.0
+    dependencies:
+      charenc: registry.nlark.com/charenc/0.0.2
+      crypt: registry.nlark.com/crypt/0.0.2
+      is-buffer: registry.npmmirror.com/is-buffer/1.1.6
+    dev: false
+
   registry.nlark.com/memory-pager/1.5.0:
     resolution: {integrity: sha1-2HUWVdItOEaCdByXLyw9bfo+ZrU=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/memory-pager/download/memory-pager-1.5.0.tgz}
     name: memory-pager
@@ -2885,6 +2911,12 @@ packages:
     dev: false
     optional: true
 
+  registry.nlark.com/standard-as-callback/2.1.0:
+    resolution: {integrity: sha1-iVP8BTWYaKd7W5c5pmXFl3u330U=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/standard-as-callback/download/standard-as-callback-2.1.0.tgz}
+    name: standard-as-callback
+    version: 2.1.0
+    dev: false
+
   registry.nlark.com/statuses/1.5.0:
     resolution: {integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/statuses/download/statuses-1.5.0.tgz}
     name: statuses
@@ -3753,49 +3785,20 @@ packages:
       - class-validator
     dev: false
 
-  registry.npmmirror.com/@node-redis/client/1.0.1:
-    resolution: {integrity: sha512-o0I4LdzJXP6QYxRnBPrQ7cIG5tF3SNM/PBnjC3mV6QkzIiGRElzWqSr9a9JCJdcyB1SIA80bhgGhpdTpCQ1Sdw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@node-redis/client/download/@node-redis/client-1.0.1.tgz}
-    name: '@node-redis/client'
-    version: 1.0.1
-    engines: {node: '>=12'}
-    dependencies:
-      cluster-key-slot: registry.nlark.com/cluster-key-slot/1.1.0
-      generic-pool: registry.npmmirror.com/generic-pool/3.8.2
-      redis-parser: registry.nlark.com/redis-parser/3.0.0
-      yallist: registry.nlark.com/yallist/4.0.0
-    dev: false
-
-  registry.npmmirror.com/@node-redis/json/1.0.1_@node-redis+client@1.0.1:
-    resolution: {integrity: sha512-2EB96ZN0yUr4mgA9Odme48jX8eF5Ji0jrsRn4rLfEhME7L3rHLdKeUfxJKxbPOxadP6k8+6ViElxPZrKuV2nvQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@node-redis/json/download/@node-redis/json-1.0.1.tgz}
-    id: registry.npmmirror.com/@node-redis/json/1.0.1
-    name: '@node-redis/json'
-    version: 1.0.1
+  registry.npmmirror.com/@nestjs/throttler/2.0.0_9bdbff8c48260a6971831c56bdd8b21e:
+    resolution: {integrity: sha1-u19ifLruNpcD09jU7Hr25MaraTo=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@nestjs/throttler/download/@nestjs/throttler-2.0.0.tgz}
+    id: registry.npmmirror.com/@nestjs/throttler/2.0.0
+    name: '@nestjs/throttler'
+    version: 2.0.0
     peerDependencies:
-      '@node-redis/client': ^1.0.0
+      '@nestjs/common': ^7.0.0 || ^8.0.0
+      '@nestjs/core': ^7.0.0 || ^8.0.0
+      reflect-metadata: ^0.1.13
     dependencies:
-      '@node-redis/client': registry.npmmirror.com/@node-redis/client/1.0.1
-    dev: false
-
-  registry.npmmirror.com/@node-redis/search/1.0.1_@node-redis+client@1.0.1:
-    resolution: {integrity: sha512-iA2Gw6gr0X6IfNSjTyme9W1tDlLkwQ1bPApo4s8aVwZ2Ju8Z4COVik0vT6BJPRin79f5xPZgnaec3DIoC2UpHA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@node-redis/search/download/@node-redis/search-1.0.1.tgz}
-    id: registry.npmmirror.com/@node-redis/search/1.0.1
-    name: '@node-redis/search'
-    version: 1.0.1
-    peerDependencies:
-      '@node-redis/client': ^1.0.0
-    dependencies:
-      '@node-redis/client': registry.npmmirror.com/@node-redis/client/1.0.1
-    dev: false
-
-  registry.npmmirror.com/@node-redis/time-series/1.0.0_@node-redis+client@1.0.1:
-    resolution: {integrity: sha512-QcaCIL/DlYJXedSfmjF+IRxKJbBUXBrjA5Gv0IiPlXXFFOkRnbPGKq6hmwBAAWyk1U03wyBHDFKVS3/9GnZV8g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@node-redis/time-series/download/@node-redis/time-series-1.0.0.tgz}
-    id: registry.npmmirror.com/@node-redis/time-series/1.0.0
-    name: '@node-redis/time-series'
-    version: 1.0.0
-    peerDependencies:
-      '@node-redis/client': ^1.0.0
-    dependencies:
-      '@node-redis/client': registry.npmmirror.com/@node-redis/client/1.0.1
+      '@nestjs/common': registry.npmmirror.com/@nestjs/common/8.2.3_a468034557985838f227b3182a361474
+      '@nestjs/core': registry.npmmirror.com/@nestjs/core/8.2.3_1864eb04cdb557d7ef263925d28b0dee
+      md5: registry.nlark.com/md5/2.3.0
+      reflect-metadata: registry.nlark.com/reflect-metadata/0.1.13
     dev: false
 
   registry.npmmirror.com/@nuxtjs/opencollective/0.3.2:
@@ -4861,13 +4864,6 @@ packages:
     dev: true
     optional: true
 
-  registry.npmmirror.com/generic-pool/3.8.2:
-    resolution: {integrity: sha1-qrTygK21Iv373F5bZNcY02g/BOk=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/generic-pool/download/generic-pool-3.8.2.tgz}
-    name: generic-pool
-    version: 3.8.2
-    engines: {node: '>= 4'}
-    dev: false
-
   registry.npmmirror.com/get-uri/3.0.2:
     resolution: {integrity: sha1-8O8TVvqrxw4flAT6O2ayupv8clw=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/get-uri/download/get-uri-3.0.2.tgz}
     name: get-uri
@@ -5115,6 +5111,33 @@ packages:
       through: registry.nlark.com/through/2.3.8
     dev: true
 
+  registry.npmmirror.com/ioredis/4.28.2:
+    resolution: {integrity: sha512-kQ+Iv7+c6HsDdPP2XUHaMv8DhnSeAeKEwMbaoqsXYbO+03dItXt7+5jGQDRyjdRUV2rFJbzg7P4Qt1iX2tqkOg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ioredis/download/ioredis-4.28.2.tgz}
+    name: ioredis
+    version: 4.28.2
+    engines: {node: '>=6'}
+    dependencies:
+      cluster-key-slot: registry.nlark.com/cluster-key-slot/1.1.0
+      debug: registry.npmmirror.com/debug/4.3.3
+      denque: registry.nlark.com/denque/1.5.1
+      lodash.defaults: registry.nlark.com/lodash.defaults/4.2.0
+      lodash.flatten: registry.nlark.com/lodash.flatten/4.4.0
+      lodash.isarguments: registry.npmmirror.com/lodash.isarguments/3.1.0
+      p-map: registry.npmmirror.com/p-map/2.1.0
+      redis-commands: registry.nlark.com/redis-commands/1.7.0
+      redis-errors: registry.nlark.com/redis-errors/1.2.0
+      redis-parser: registry.nlark.com/redis-parser/3.0.0
+      standard-as-callback: registry.nlark.com/standard-as-callback/2.1.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  registry.npmmirror.com/is-buffer/1.1.6:
+    resolution: {integrity: sha1-76ouqdqg16suoTqXsritUf776L4=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/is-buffer/download/is-buffer-1.1.6.tgz}
+    name: is-buffer
+    version: 1.1.6
+    dev: false
+
   registry.npmmirror.com/is-core-module/2.8.0:
     resolution: {integrity: sha1-AyEzbD0JJeSX/Zf12VyxFKXM1Ug=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/is-core-module/download/is-core-module-2.8.0.tgz}
     name: is-core-module
@@ -5223,6 +5246,12 @@ packages:
     resolution: {integrity: sha1-0Z9NwQlQWMzL4rDN9O4P5Ko3yGI=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lodash.has/download/lodash.has-4.5.2.tgz}
     name: lodash.has
     version: 4.5.2
+    dev: false
+
+  registry.npmmirror.com/lodash.isarguments/3.1.0:
+    resolution: {integrity: sha1-L1c9hcaiQon/AGY7SRwdM4/zRYo=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lodash.isarguments/download/lodash.isarguments-3.1.0.tgz}
+    name: lodash.isarguments
+    version: 3.1.0
     dev: false
 
   registry.npmmirror.com/lodash.reduce/4.6.0:
@@ -5408,6 +5437,25 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
+  registry.npmmirror.com/nestjs-throttler-storage-redis/0.1.18_a99dc36a1f343322349691605c5f5d09:
+    resolution: {integrity: sha512-BHYYN+fuJcBi96J2sOoID8VcI5jbMKfQ63Zsi5dzJ6dEnK4hqc6w4MbSKsBd8P8+eCDsSNFmnnmdhLcz/WwAaQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/nestjs-throttler-storage-redis/download/nestjs-throttler-storage-redis-0.1.18.tgz}
+    id: registry.npmmirror.com/nestjs-throttler-storage-redis/0.1.18
+    name: nestjs-throttler-storage-redis
+    version: 0.1.18
+    peerDependencies:
+      '@nestjs/common': ^7 || ^8
+      '@nestjs/core': ^7 || ^8
+      '@nestjs/throttler': ^2.0.0
+      ioredis: ^4.27.6
+      reflect-metadata: ^0.1.13
+    dependencies:
+      '@nestjs/common': registry.npmmirror.com/@nestjs/common/8.2.3_a468034557985838f227b3182a361474
+      '@nestjs/core': registry.npmmirror.com/@nestjs/core/8.2.3_1864eb04cdb557d7ef263925d28b0dee
+      '@nestjs/throttler': registry.npmmirror.com/@nestjs/throttler/2.0.0_9bdbff8c48260a6971831c56bdd8b21e
+      ioredis: registry.npmmirror.com/ioredis/4.28.2
+      reflect-metadata: registry.nlark.com/reflect-metadata/0.1.13
+    dev: false
+
   registry.npmmirror.com/node-fetch/2.6.6:
     resolution: {integrity: sha1-F1GnwBg06OFpd1hzLp77burfr4k=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/node-fetch/download/node-fetch-2.6.6.tgz}
     name: node-fetch
@@ -5470,6 +5518,13 @@ packages:
       macos-release: registry.nlark.com/macos-release/2.5.0
       windows-release: registry.npmmirror.com/windows-release/4.0.0
     dev: true
+
+  registry.npmmirror.com/p-map/2.1.0:
+    resolution: {integrity: sha1-MQko/u+cnsxltosXaTAYpmXOoXU=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/p-map/download/p-map-2.1.0.tgz?cache=0&sync_timestamp=1635932711630&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fp-map%2Fdownload%2Fp-map-2.1.0.tgz}
+    name: p-map
+    version: 2.1.0
+    engines: {node: '>=6'}
+    dev: false
 
   registry.npmmirror.com/parent-module/1.0.1:
     resolution: {integrity: sha1-aR0nCeeMefrjoVZiJFLQB2LKqqI=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/parent-module/download/parent-module-1.0.1.tgz}
@@ -5640,18 +5695,6 @@ packages:
       redis-commands: registry.nlark.com/redis-commands/1.7.0
       redis-errors: registry.nlark.com/redis-errors/1.2.0
       redis-parser: registry.nlark.com/redis-parser/3.0.0
-    dev: false
-
-  registry.npmmirror.com/redis/4.0.1:
-    resolution: {integrity: sha512-qfcq1oz2ci7pNdCfTLLEuKhS8jZ17dFiT1exogOr+jd3EVP/h9qpy7K+VajB4BXA0k8q68KFqR6HrliKV6jt1Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/redis/download/redis-4.0.1.tgz}
-    name: redis
-    version: 4.0.1
-    engines: {npm: '>=7'}
-    dependencies:
-      '@node-redis/client': registry.npmmirror.com/@node-redis/client/1.0.1
-      '@node-redis/json': registry.npmmirror.com/@node-redis/json/1.0.1_@node-redis+client@1.0.1
-      '@node-redis/search': registry.npmmirror.com/@node-redis/search/1.0.1_@node-redis+client@1.0.1
-      '@node-redis/time-series': registry.npmmirror.com/@node-redis/time-series/1.0.0_@node-redis+client@1.0.1
     dev: false
 
   registry.npmmirror.com/regexp-clone/1.0.0:

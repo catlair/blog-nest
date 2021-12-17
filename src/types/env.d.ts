@@ -23,6 +23,7 @@ interface IndirectEnvType {
   /** 盐 */
   SALT?: string;
   SALT_ROUNDS?: string;
+  RATE_LIMIT_MAX?: string;
 }
 
 type EnvType = IndirectEnvType & DirectEnvType;

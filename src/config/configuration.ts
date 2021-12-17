@@ -16,6 +16,7 @@ const configuration = () => ({
   cacheTTl: pInt('CACHE_TTL') || 300,
   saltRounds: pInt('SALT_ROUNDS') || 10,
   salt: process.env.SALT || 'tlas',
+  rateLimitMax: pInt('RATE_LIMIT_MAX') || 20,
 });
 
 // 使用 DirectEnvType 而不是 EnvType， 目的是不提示间接使用的环境变量
