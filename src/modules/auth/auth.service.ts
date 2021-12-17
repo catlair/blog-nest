@@ -69,7 +69,7 @@ export class AuthService {
 
     const cacheCode = await this.cacheManager.get(user.email);
 
-    if (+cacheCode === resetPassDto.code) {
+    if (cacheCode === resetPassDto.code) {
       await this.usersService.update(user._id, {
         password: resetPassDto.password,
       });

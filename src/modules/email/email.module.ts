@@ -22,7 +22,7 @@ import { UsersModule } from '../user/users.module';
             pass: configService.get('email.pass', { infer: true }),
           },
         },
-        preview: configService.get('NODE_ENV') === 'development',
+        preview: false,
         defaults: {
           from: `"cat blog" <${configService.get('email.user', {
             infer: true,
