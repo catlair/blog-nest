@@ -1,21 +1,37 @@
+interface DirectEnvType {
+  /** JWT 密匙 */
+  JWT_SECRET: string;
+  /** 运行环境 */
+  NODE_ENV: 'development' | 'production';
+  /** 数据库地址 */
+  MONGODB_URI: string;
+  /** 不使用 redis 进行缓存 */
+  REDIS_DISABLE: string;
+}
+
+// 下面是非直接使用的环境变量
+interface IndirectEnvType {
+  PORT?: string;
+  EMAIL_HOST: string;
+  EMAIL_PORT?: string;
+  EMAIL_USER: string;
+  EMAIL_PASS: string;
+  REDIS_HOST?: string;
+  REDIS_PORT?: string;
+  CACHE_TTL?: string;
+  REDIS_PASSWORD?: string;
+  /** 盐 */
+  SALT?: string;
+  SALT_ROUNDS?: string;
+}
+
+type EnvType = IndirectEnvType & DirectEnvType;
+
 declare module 'process' {
   global {
     namespace NodeJS {
-      interface ProcessEnv {
-        NODE_ENV: 'development' | 'production';
-        PORT?: string;
-        JWT_SECRET: string;
-        MONGODB_URI: string;
-        SALT: string;
-        EMAIL_HOST: string;
-        EMAIL_PORT?: string;
-        EMAIL_USER: string;
-        EMAIL_PASS: string;
-        REDIS_HOST?: string;
-        REDIS_PORT?: string;
-        REDIS_PASSWORD?: string;
-        REDIS_DISABLE?: string;
-        CACHE_TTL?: string;
+      interface ProcessEnv extends EnvType {
+        TZ?: string;
       }
     }
   }
