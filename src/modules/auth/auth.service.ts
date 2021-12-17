@@ -10,6 +10,7 @@ import { UsersService } from '../user/users.service';
 import { User } from '../user/schemas/user.schema';
 import type { MgReType } from '@/types';
 import { ResetPassDto } from './dto/reset-pass.dto';
+import { HashingService } from '@/utils/hashing.service';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +18,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+    private readonly hashingService: HashingService,
   ) {}
 
   async validateUser(
@@ -24,28 +26,23 @@ export class AuthService {
     password: string,
     isEmail = false,
   ): Promise<Omit<MgReType<User>, 'password'>> {
+    let options: { email?: string; username?: string },
+      errMsg = '';
+
     if (isEmail) {
-      return await this.validateEmail(username, password);
+      options = { email: username };
+      errMsg = '邮箱或密码错误';
+    } else {
+      options = { username };
+      errMsg = '用户名或密码错误';
     }
-    return await this.validateUsername(username, password);
-  }
 
-  async validateEmail(email: string, password: string) {
-    const user = await this.usersService.find({ email }).select('+password');
-
-    if (user && user.password === password) {
+    const user = await this.usersService.find(options).select('+password');
+    const isMatch = await this.hashingService.match(password, user.password);
+    if (user && isMatch) {
       return user;
     }
-    throw new BadRequestException('邮箱或密码错误');
-  }
-
-  async validateUsername(username: string, password: string) {
-    const user = await this.usersService.find({ username }).select('+password');
-
-    if (user && user.password === password) {
-      return user;
-    }
-    throw new BadRequestException('用户名或密码错误');
+    throw new BadRequestException(errMsg);
   }
 
   async login(user: MgReType<User>, key: 'username' | 'email' = 'username') {
@@ -71,7 +68,7 @@ export class AuthService {
 
     if (cacheCode === resetPassDto.code) {
       await this.usersService.update(user._id, {
-        password: resetPassDto.password,
+        password: await this.hashingService.get(resetPassDto.password),
       });
       this.cacheManager.del(user.email);
       return {

@@ -12,6 +12,7 @@ specifiers:
   '@nestjs/platform-express': ^8.2.3
   '@nestjs/schematics': ^8.0.5
   '@nestjs/swagger': ^5.1.5
+  '@types/bcryptjs': ^2.4.2
   '@types/cache-manager': ^3.4.2
   '@types/express': ^4.17.13
   '@types/lodash': ^4.14.177
@@ -21,6 +22,7 @@ specifiers:
   '@types/supertest': ^2.0.11
   '@typescript-eslint/eslint-plugin': ^5.5.0
   '@typescript-eslint/parser': ^5.5.0
+  bcryptjs: ^2.4.3
   cache-manager: ^3.6.0
   cache-manager-redis-store: ^2.0.0
   class-transformer: ^0.4.0
@@ -59,6 +61,7 @@ dependencies:
   '@nestjs/passport': registry.npmmirror.com/@nestjs/passport/8.0.1_42124d4eb17a2eed3a87b6c20a6165ac
   '@nestjs/platform-express': registry.npmmirror.com/@nestjs/platform-express/8.2.3_4e195730d90113ce1578bd999274c7a8
   '@nestjs/swagger': registry.npmmirror.com/@nestjs/swagger/5.1.5_e9707470d1e9cbf747a86c8b913e1d90
+  bcryptjs: registry.nlark.com/bcryptjs/2.4.3
   cache-manager: registry.npmmirror.com/cache-manager/3.6.0
   cache-manager-redis-store: registry.npmmirror.com/cache-manager-redis-store/2.0.0
   class-transformer: registry.npmmirror.com/class-transformer/0.4.0
@@ -80,6 +83,7 @@ dependencies:
 devDependencies:
   '@nestjs/cli': registry.npmmirror.com/@nestjs/cli/8.1.5_eslint@8.4.0
   '@nestjs/schematics': registry.npmmirror.com/@nestjs/schematics/8.0.5_typescript@4.5.3
+  '@types/bcryptjs': registry.npmmirror.com/@types/bcryptjs/2.4.2
   '@types/cache-manager': registry.npmmirror.com/@types/cache-manager/3.4.2
   '@types/express': registry.npmmirror.com/@types/express/4.17.13
   '@types/lodash': registry.npmmirror.com/@types/lodash/4.14.177
@@ -495,6 +499,12 @@ packages:
     resolution: {integrity: sha1-GxtEAWClv3rUC2UPCVljSBkDkwo=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/base64-js/download/base64-js-1.5.1.tgz}
     name: base64-js
     version: 1.5.1
+
+  registry.nlark.com/bcryptjs/2.4.3:
+    resolution: {integrity: sha1-mrVie5PmBiH/fNrF2pczAn3x0Ms=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/bcryptjs/download/bcryptjs-2.4.3.tgz}
+    name: bcryptjs
+    version: 2.4.3
+    dev: false
 
   registry.nlark.com/binary-extensions/2.2.0:
     resolution: {integrity: sha1-dfUC7q+f/eQvyYgpZFvk6na9ni0=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/binary-extensions/download/binary-extensions-2.2.0.tgz}
@@ -3815,6 +3825,12 @@ packages:
     version: 1.1.2
     engines: {node: '>= 6'}
     dev: false
+
+  registry.npmmirror.com/@types/bcryptjs/2.4.2:
+    resolution: {integrity: sha1-41MOrJ3RNr/fsOQ98sTFzh93364=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/bcryptjs/download/@types/bcryptjs-2.4.2.tgz}
+    name: '@types/bcryptjs'
+    version: 2.4.2
+    dev: true
 
   registry.npmmirror.com/@types/body-parser/1.19.2:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/body-parser/download/@types/body-parser-1.19.2.tgz?cache=0&sync_timestamp=1637291111352&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fbody-parser%2Fdownload%2F%40types%2Fbody-parser-1.19.2.tgz}

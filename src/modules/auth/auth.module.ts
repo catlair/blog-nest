@@ -9,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { Configuration } from '../../config/configuration';
 import { JwtStrategy } from './jwt.strategy';
 import { CacheConfigService } from '../redis/redis.service';
+import { HashingService } from '@/utils/hashing.service';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { CacheConfigService } from '../redis/redis.service';
       useClass: CacheConfigService,
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, HashingService],
   controllers: [AuthController],
   exports: [AuthService],
 })

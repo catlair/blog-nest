@@ -6,15 +6,21 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 import { UserValidationEnum } from '../../enums/user-validation.enums';
 import { ArticlesService } from '../articles/articles.service';
+import { HashingService } from '@/utils/hashing.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     private readonly articlesService: ArticlesService,
+    private readonly hashingService: HashingService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
+    // 散列密码
+    createUserDto.password = await this.hashingService.get(
+      createUserDto.password,
+    );
     try {
       const user = await this.userModel.create(createUserDto);
       if (user) {
@@ -73,8 +79,11 @@ export class UsersService {
     return this.userModel.findOne({ username });
   }
 
-  update(id: string, updateUserDto: UpdateUserDto): any {
-    return this.userModel.updateOne({ _id: id }, updateUserDto);
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    updateUserDto.password = await this.hashingService.get(
+      updateUserDto.password,
+    );
+    return this.userModel.findByIdAndUpdate(id, updateUserDto);
   }
 
   remove(id: string): any {

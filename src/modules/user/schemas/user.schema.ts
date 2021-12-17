@@ -14,7 +14,7 @@ export class User {
   username: string;
 
   // 密码
-  @Prop({ required: true, maxlength: 20, minlength: 6, select: false })
+  @Prop({ required: true, maxlength: 80, minlength: 50, select: false })
   password: string;
 
   // 昵称

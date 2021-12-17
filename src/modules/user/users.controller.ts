@@ -63,7 +63,7 @@ export class UsersController {
 
   @Patch(':id')
   @Auth()
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
     @UserReq() user: MgReType<User>,
@@ -71,11 +71,11 @@ export class UsersController {
     console.log(id, user);
 
     if (user?.roles.includes(Role.Admin)) {
-      return this.usersService.update(id, updateUserDto);
+      return await this.usersService.update(id, updateUserDto);
     } else if (user._id.toString() === id) {
       // 无权限修改自己的权限信息
       delete updateUserDto.roles;
-      return this.usersService.update(id, updateUserDto);
+      return await this.usersService.update(id, updateUserDto);
     }
     throw new ForbiddenException('权限不足');
   }
