@@ -17,6 +17,7 @@ import { Role } from '@/enums/role.enum';
 import type { MgReUserType } from '@/types';
 import { ArticleStatusEnum } from '@/enums/article-status.enums';
 import { ResponseException } from '@/exception';
+import { PageSizeQueryDto } from '@/common/dto/pagesize-query.dto';
 
 @Controller('article')
 @ApiTags('文章')
@@ -25,25 +26,25 @@ export class ArticlesController {
 
   @Post()
   @Auth(Role.Author)
-  create(
+  async create(
     @Body() createArticleDto: CreateArticleDto,
     @UserReq() user: MgReUserType,
   ) {
     createArticleDto.author = user._id;
     // Author 才有权限发布文章
-    if (
-      !user.roles.includes(Role.Author) &&
-      createArticleDto.status !== ArticleStatusEnum.DRAFT
-    ) {
-      createArticleDto.status = ArticleStatusEnum.UNPUBLISHED;
+    if (!user.roles.includes(Role.Author)) {
+      createArticleDto.status = ArticleStatusEnum.DRAFT;
     }
-
-    return this.articlesService.create(createArticleDto);
+    return await this.articlesService.create(createArticleDto);
   }
 
   @Get()
-  async findAll(@Query('pn') page: string, @Query('ps') size: string) {
-    return await this.articlesService.findAll(+page, +size);
+  @AuthUnlogin()
+  async findAll(
+    @Query() query: PageSizeQueryDto,
+    @UserReq() user: MgReUserType,
+  ) {
+    return await this.articlesService.findAll(query, user);
   }
 
   @Get(':id')
@@ -65,7 +66,10 @@ export class ArticlesController {
   @Delete(':id')
   @Auth(Role.Author)
   remove(@Param('id') id: string, @UserReq() user: MgReUserType) {
-    if (user.roles.includes(Role.Admin) || user._id.toString() === id) {
+    if (
+      (user.roles && user.roles.includes(Role.Admin)) ||
+      user._id.toString() === id
+    ) {
       return this.articlesService.remove(id);
     }
     throw new ResponseException('没有权限删除文章');

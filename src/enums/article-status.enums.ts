@@ -5,8 +5,6 @@ export enum ArticleStatusEnum {
   'PUBLISHED',
   // 已删除
   'DELETED',
-  // 未发布
-  'UNPUBLISHED',
 }
 
 export enum ArticleVisibilityEnum {

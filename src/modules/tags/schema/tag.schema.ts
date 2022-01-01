@@ -1,12 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ApiProperty } from '@nestjs/swagger';
 import { Document } from 'mongoose';
 
 // 导出标签文档类型
 export type TagDocument = Tag & Document;
 
 // 标签模型
-@Schema()
+@Schema({
+  timestamps: {
+    createdAt: 'createdAt',
+    updatedAt: false,
+  },
+})
 export class Tag {
   // 标签名
   @Prop({ required: true, maxlength: 20, unique: true })

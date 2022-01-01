@@ -12,5 +12,5 @@ export class UpdateArticleDto extends PartialType(CreateArticleDto) {
   // 作者
   @ApiProperty({ description: '作者' })
   @IsObjectId({ message: '作者 Id 不合法' })
-  author: mongoose.Types.ObjectId;
+  author?: mongoose.Types.ObjectId;
 }

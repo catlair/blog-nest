@@ -70,7 +70,7 @@ export class UsersController {
   ) {
     console.log(id, user);
 
-    if (user?.roles.includes(Role.Admin)) {
+    if (user.roles && user.roles.includes(Role.Admin)) {
       return await this.usersService.update(id, updateUserDto);
     } else if (user._id.toString() === id) {
       // 无权限修改自己的权限信息

@@ -19,8 +19,14 @@ export class TransformInterceptor<T>
     _context: ExecutionContext,
     next: CallHandler,
   ): Observable<Response<T>> {
-    return next
-      .handle()
-      .pipe(map((data) => ({ code: 0, msg: '', result: data })));
+    return next.handle().pipe(
+      map((data) => {
+        if (data.code && data.msg) {
+          return data;
+        } else {
+          return { code: 0, msg: '', result: data };
+        }
+      }),
+    );
   }
 }

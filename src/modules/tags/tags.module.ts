@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TagsService } from './tags.service';
 import { TagsController } from './tags.controller';
 import { Tag, TagSchema } from './schema/tag.schema';
@@ -8,9 +8,10 @@ import { ArticlesModule } from '../articles/articles.module';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Tag.name, schema: TagSchema }]),
-    ArticlesModule,
+    forwardRef(() => ArticlesModule),
   ],
   controllers: [TagsController],
   providers: [TagsService],
+  exports: [TagsService],
 })
 export class TagsModule {}

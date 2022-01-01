@@ -22,7 +22,6 @@ export class Article {
 
   // 作者
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  // 这里暂时不知道，按照官网会报错
   author: any;
 
   // 分类

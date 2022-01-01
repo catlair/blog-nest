@@ -13,6 +13,12 @@ export class TagsController {
     return this.tagsService.findAll();
   }
 
+  @Get('/name/:name')
+  @ApiOperation({ summary: '根据标签 name 获取所有文章' })
+  findOneByName(@Param('name') name: string) {
+    return this.tagsService.findOneByName(name);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: '根据标签 id 获取所有文章' })
   findOne(@Param('id') id: string) {

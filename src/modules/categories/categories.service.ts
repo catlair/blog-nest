@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { ResponseException } from '@/exception';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ArticlesService } from '../articles/articles.service';
@@ -10,6 +11,7 @@ import { Category, CategoryDocument } from './schemas/category.schema';
 export class CategoriesService {
   constructor(
     @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
+    @Inject(forwardRef(() => ArticlesService))
     private readonly articlesService: ArticlesService,
   ) {}
 
@@ -17,20 +19,51 @@ export class CategoriesService {
     return this.categoryModel.create(createCategoryDto);
   }
 
-  findAll() {
-    return this.categoryModel.find();
+  async findAll() {
+    const categories = await this.categoryModel.find().lean();
+    return await this.articlesService.getNumsByKey(categories, 'category');
   }
 
-  async findOne(id: string) {
-    const category = await this.categoryModel.findById(id);
+  private async getArticleByCategoryName(category: any) {
+    if (!category) {
+      throw new ResponseException('分类不存在');
+    }
     return await this.articlesService.findAllByCategory(category.name);
   }
 
-  update(id: string, updateCategoryDto: UpdateCategoryDto): any {
-    return this.categoryModel.updateOne({ _id: id }, updateCategoryDto);
+  async findOne(id: string) {
+    const category = await this.categoryModel.findOne({ _id: id });
+    return await this.getArticleByCategoryName(category);
   }
 
-  remove(id: string) {
-    return this.categoryModel.findByIdAndRemove(id);
+  async findOneByName(name: string) {
+    const category = await this.categoryModel.findOne({ name });
+    return await this.getArticleByCategoryName(category);
+  }
+
+  async update(id: string, updateCategoryDto: UpdateCategoryDto): Promise<any> {
+    const articles = await this.findOne(id);
+    const category = await this.categoryModel.updateOne(
+      { _id: id },
+      updateCategoryDto,
+    );
+
+    await Promise.all(
+      articles.list &&
+        articles.list.map((article) => {
+          this.articlesService.update(
+            article._id,
+            {
+              category: updateCategoryDto.name,
+            },
+            true,
+          );
+        }),
+    );
+    return category;
+  }
+
+  async remove(id: string) {
+    return await this.categoryModel.findByIdAndRemove(id);
   }
 }

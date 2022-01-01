@@ -32,13 +32,19 @@ export class CategoriesController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: '获取指定分类的所有文章' })
+  @ApiOperation({ summary: '获取指定分类id的所有文章' })
   findOne(@Param('id') id: string) {
     return this.categoriesService.findOne(id);
   }
 
+  @Get('/name/:name')
+  @ApiOperation({ summary: '获取指定分类名称的所有文章' })
+  findOneByName(@Param('name') name: string) {
+    return this.categoriesService.findOneByName(name);
+  }
+
   @Patch(':id')
-  @Auth(Role.Author)
+  @Auth(Role.Author, Role.Admin)
   update(
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
