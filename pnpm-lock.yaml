@@ -15,6 +15,7 @@ specifiers:
   '@nestjs/schematics': ^8.0.5
   '@nestjs/swagger': ^5.1.5
   '@nestjs/throttler': ^2.0.0
+  '@prisma/client': ^3.10.0
   '@types/bcryptjs': ^2.4.2
   '@types/cache-manager': ^3.4.2
   '@types/express': ^4.17.13
@@ -45,6 +46,7 @@ specifiers:
   passport-jwt: ^4.0.0
   passport-local: ^1.0.0
   prettier: ^2.5.0
+  prisma: ^3.10.0
   reflect-metadata: ^0.1.13
   rimraf: ^3.0.2
   rxjs: ^7.4.0
@@ -67,6 +69,7 @@ dependencies:
   '@nestjs/platform-express': registry.npmmirror.com/@nestjs/platform-express/8.2.3_4e195730d90113ce1578bd999274c7a8
   '@nestjs/swagger': registry.npmmirror.com/@nestjs/swagger/5.1.5_e9707470d1e9cbf747a86c8b913e1d90
   '@nestjs/throttler': registry.npmmirror.com/@nestjs/throttler/2.0.0_9bdbff8c48260a6971831c56bdd8b21e
+  '@prisma/client': registry.npmmirror.com/@prisma/client/3.10.0_prisma@3.10.0
   bcryptjs: registry.nlark.com/bcryptjs/2.4.3
   cache-manager: registry.npmmirror.com/cache-manager/3.6.0
   cache-manager-redis-store: registry.npmmirror.com/cache-manager-redis-store/2.0.0
@@ -107,6 +110,7 @@ devDependencies:
   eslint-plugin-prettier: registry.npmmirror.com/eslint-plugin-prettier/4.0.0_27140960afd45c356c84f80c9a47df2a
   husky: registry.npmmirror.com/husky/7.0.4
   prettier: registry.npmmirror.com/prettier/2.5.0
+  prisma: registry.npmmirror.com/prisma/3.10.0
   source-map-support: registry.npmmirror.com/source-map-support/0.5.21
   supertest: registry.nlark.com/supertest/6.1.6
   ts-loader: registry.npmmirror.com/ts-loader/9.2.6_typescript@4.5.3
@@ -187,14 +191,6 @@ packages:
     dependencies:
       '@types/node': registry.npmmirror.com/@types/node/16.11.11
     dev: false
-
-  registry.nlark.com/@types/pug/2.0.4:
-    resolution: {integrity: sha1-h3L80EGOPNLMFxVV1zAHQVBR9LI=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@types/pug/download/@types/pug-2.0.4.tgz}
-    name: '@types/pug'
-    version: 2.0.4
-    requiresBuild: true
-    dev: false
-    optional: true
 
   registry.nlark.com/@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha1-K/12fq4aaZb0Mv9+jX/HVnnAtqc=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@webassemblyjs/ast/download/@webassemblyjs/ast-1.11.1.tgz}
@@ -690,15 +686,6 @@ packages:
     name: color-name
     version: 1.1.4
 
-  registry.nlark.com/colors/1.4.0:
-    resolution: {integrity: sha1-xQSRR51MG9rtLJztMs98fcI2D3g=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/colors/download/colors-1.4.0.tgz}
-    name: colors
-    version: 1.4.0
-    engines: {node: '>=0.1.90'}
-    requiresBuild: true
-    dev: true
-    optional: true
-
   registry.nlark.com/combined-stream/1.0.8:
     resolution: {integrity: sha1-w9RaizT9cwYxoRCoolIGgrMdWn8=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/combined-stream/download/combined-stream-1.0.8.tgz}
     name: combined-stream
@@ -1133,7 +1120,7 @@ packages:
       esutils: registry.nlark.com/esutils/2.0.3
       optionator: registry.nlark.com/optionator/0.8.3
     optionalDependencies:
-      source-map: registry.nlark.com/source-map/0.6.1
+      source-map: registry.npmmirror.com/source-map/0.6.1
     dev: false
 
   registry.nlark.com/eslint-config-prettier/8.3.0_eslint@8.4.0:
@@ -2741,21 +2728,6 @@ packages:
     version: 2.0.0
     dev: false
 
-  registry.nlark.com/pug/3.0.2:
-    resolution: {integrity: sha1-81xxBzQ0VOQ7wnrg/3bHMbeOpTU=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/pug/download/pug-3.0.2.tgz}
-    name: pug
-    version: 3.0.2
-    dependencies:
-      pug-code-gen: registry.nlark.com/pug-code-gen/3.0.2
-      pug-filters: registry.nlark.com/pug-filters/4.0.0
-      pug-lexer: registry.nlark.com/pug-lexer/5.0.1
-      pug-linker: registry.nlark.com/pug-linker/4.0.0
-      pug-load: registry.nlark.com/pug-load/3.0.0
-      pug-parser: registry.nlark.com/pug-parser/6.0.0
-      pug-runtime: registry.nlark.com/pug-runtime/3.0.1
-      pug-strip-comments: registry.nlark.com/pug-strip-comments/2.0.0
-    dev: false
-
   registry.nlark.com/pump/3.0.0:
     resolution: {integrity: sha1-tKIRaBW94vTh6mAjVOjHVWUQemQ=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/pump/download/pump-3.0.0.tgz}
     name: pump
@@ -4039,10 +4011,10 @@ packages:
       preview-email: registry.npmmirror.com/preview-email/3.0.4
     optionalDependencies:
       '@types/ejs': registry.npmmirror.com/@types/ejs/3.1.0
-      '@types/pug': registry.nlark.com/@types/pug/2.0.4
+      '@types/pug': registry.npmmirror.com/@types/pug/2.0.4
       ejs: registry.npmmirror.com/ejs/3.1.6
       handlebars: registry.npmmirror.com/handlebars/4.7.7
-      pug: registry.nlark.com/pug/3.0.2
+      pug: registry.npmmirror.com/pug/3.0.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -4346,6 +4318,36 @@ packages:
       node-fetch: registry.npmmirror.com/node-fetch/2.6.6
     dev: false
 
+  registry.npmmirror.com/@prisma/client/3.10.0_prisma@3.10.0:
+    resolution: {integrity: sha512-6P4sV7WFuODSfSoSEzCH1qfmWMrCUBk1LIIuTbQf6m1LI/IOpLN4lnqGDmgiBGprEzuWobnGLfe9YsXLn0inrg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@prisma/client/-/client-3.10.0.tgz}
+    id: registry.npmmirror.com/@prisma/client/3.10.0
+    name: '@prisma/client'
+    version: 3.10.0
+    engines: {node: '>=12.6'}
+    requiresBuild: true
+    peerDependencies:
+      prisma: '*'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
+    dependencies:
+      '@prisma/engines-version': registry.npmmirror.com/@prisma/engines-version/3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86
+      prisma: registry.npmmirror.com/prisma/3.10.0
+    dev: false
+
+  registry.npmmirror.com/@prisma/engines-version/3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86:
+    resolution: {integrity: sha512-cVYs5gyQH/qyut24hUvDznCfPrWiNMKNfPb9WmEoiU6ihlkscIbCfkmuKTtspVLWRdl0LqjYEC7vfnPv17HWhw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@prisma/engines-version/-/engines-version-3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86.tgz}
+    name: '@prisma/engines-version'
+    version: 3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86
+    dev: false
+
+  registry.npmmirror.com/@prisma/engines/3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86:
+    resolution: {integrity: sha512-LjRssaWu9w2SrXitofnutRIyURI7l0veQYIALz7uY4shygM9nMcK3omXcObRm7TAcw3Z+9ytfK1B+ySOsOesxQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@prisma/engines/-/engines-3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86.tgz}
+    name: '@prisma/engines'
+    version: 3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86
+    requiresBuild: true
+    dev: true
+
   registry.npmmirror.com/@selderee/plugin-htmlparser2/0.6.0:
     resolution: {integrity: sha1-J+mUr9HCy2R861QGoYWlV0GIBp0=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@selderee/plugin-htmlparser2/download/@selderee/plugin-htmlparser2-0.6.0.tgz}
     name: '@selderee/plugin-htmlparser2'
@@ -4398,7 +4400,7 @@ packages:
     dev: true
 
   registry.npmmirror.com/@types/ejs/3.1.0:
-    resolution: {integrity: sha1-q4EJIIEGtedk5abJKyuhxiW3MCA=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/ejs/download/@types/ejs-3.1.0.tgz}
+    resolution: {integrity: sha512-DCg+Ka+uDQ31lJ/UtEXVlaeV3d6t81gifaVWKJy4MYVVgvJttyX/viREy+If7fz+tK/gVxTGMtyrFPnm4gjrVA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/ejs/-/ejs-3.1.0.tgz}
     name: '@types/ejs'
     version: 3.1.0
     requiresBuild: true
@@ -4535,6 +4537,14 @@ packages:
     dependencies:
       '@types/express': registry.npmmirror.com/@types/express/4.17.13
     dev: true
+
+  registry.npmmirror.com/@types/pug/2.0.4:
+    resolution: {integrity: sha512-cevKhB0yUJCFKzCnkB6HbDRZdYwVRRXzhIKRDgfAR1dnzEwZLRGf5lKpLJLZEP/odmaWT+gWNwH02bRhQIBYPg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/pug/-/pug-2.0.4.tgz}
+    name: '@types/pug'
+    version: 2.0.4
+    requiresBuild: true
+    dev: false
+    optional: true
 
   registry.npmmirror.com/@types/qs/6.9.7:
     resolution: {integrity: sha1-Y7t9Bn2xB8weRXwwO8JdUR/r9ss=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/qs/download/@types/qs-6.9.7.tgz}
@@ -5019,7 +5029,7 @@ packages:
       object-assign: registry.nlark.com/object-assign/4.1.1
       string-width: registry.npmmirror.com/string-width/4.2.3
     optionalDependencies:
-      colors: registry.nlark.com/colors/1.4.0
+      colors: registry.npmmirror.com/colors/1.4.0
     dev: true
 
   registry.npmmirror.com/color-convert/1.9.3:
@@ -5036,6 +5046,15 @@ packages:
     engines: {node: '>=7.0.0'}
     dependencies:
       color-name: registry.nlark.com/color-name/1.1.4
+
+  registry.npmmirror.com/colors/1.4.0:
+    resolution: {integrity: sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/colors/-/colors-1.4.0.tgz}
+    name: colors
+    version: 1.4.0
+    engines: {node: '>=0.1.90'}
+    requiresBuild: true
+    dev: true
+    optional: true
 
   registry.npmmirror.com/commander/2.20.3:
     resolution: {integrity: sha1-/UhehMA+tIgcIHIrpIA16FMa6zM=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/commander/download/commander-2.20.3.tgz}
@@ -5564,7 +5583,7 @@ packages:
     dev: false
 
   registry.npmmirror.com/fsevents/2.3.2:
-    resolution: {integrity: sha1-ilJveLj99GI7cJ4Ll1xSwkwC/Ro=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/fsevents/download/fsevents-2.3.2.tgz}
+    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/fsevents/-/fsevents-2.3.2.tgz}
     name: fsevents
     version: 2.3.2
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -5661,7 +5680,7 @@ packages:
     version: 4.2.8
 
   registry.npmmirror.com/handlebars/4.7.7:
-    resolution: {integrity: sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/handlebars/download/handlebars-4.7.7.tgz}
+    resolution: {integrity: sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/handlebars/-/handlebars-4.7.7.tgz}
     name: handlebars
     version: 4.7.7
     engines: {node: '>=0.4.7'}
@@ -6450,10 +6469,36 @@ packages:
       mailparser: registry.npmmirror.com/mailparser/3.4.0
       nodemailer: registry.npmmirror.com/nodemailer/6.7.2
       open: registry.npmmirror.com/open/7.4.2
-      pug: registry.nlark.com/pug/3.0.2
+      pug: registry.npmmirror.com/pug/3.0.2
       uuid: registry.npmmirror.com/uuid/8.3.2
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  registry.npmmirror.com/prisma/3.10.0:
+    resolution: {integrity: sha512-dAld12vtwdz9Rz01nOjmnXe+vHana5PSog8t0XGgLemKsUVsaupYpr74AHaS3s78SaTS5s2HOghnJF+jn91ZrA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/prisma/-/prisma-3.10.0.tgz}
+    name: prisma
+    version: 3.10.0
+    engines: {node: '>=12.6'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@prisma/engines': registry.npmmirror.com/@prisma/engines/3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86
+    dev: true
+
+  registry.npmmirror.com/pug/3.0.2:
+    resolution: {integrity: sha512-bp0I/hiK1D1vChHh6EfDxtndHji55XP/ZJKwsRqrz6lRia6ZC2OZbdAymlxdVFwd1L70ebrVJw4/eZ79skrIaw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pug/-/pug-3.0.2.tgz}
+    name: pug
+    version: 3.0.2
+    dependencies:
+      pug-code-gen: registry.nlark.com/pug-code-gen/3.0.2
+      pug-filters: registry.nlark.com/pug-filters/4.0.0
+      pug-lexer: registry.nlark.com/pug-lexer/5.0.1
+      pug-linker: registry.nlark.com/pug-linker/4.0.0
+      pug-load: registry.nlark.com/pug-load/3.0.0
+      pug-parser: registry.nlark.com/pug-parser/6.0.0
+      pug-runtime: registry.nlark.com/pug-runtime/3.0.1
+      pug-strip-comments: registry.nlark.com/pug-strip-comments/2.0.0
     dev: false
 
   registry.npmmirror.com/qs/6.10.1:
@@ -6557,7 +6602,7 @@ packages:
       tslib: registry.nlark.com/tslib/2.1.0
 
   registry.npmmirror.com/saslprep/1.0.3:
-    resolution: {integrity: sha1-TAL5RrVs9UKX40e6EJPnrKxM8iY=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/saslprep/download/saslprep-1.0.3.tgz}
+    resolution: {integrity: sha512-/MY/PEMbk2SuY5sScONwhUDsV2p77Znkb/q3nSVstq/yQzYJOH/Azh29p9oJLsl3LnQwSvZDKagDGBsBwSooag==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/saslprep/-/saslprep-1.0.3.tgz}
     name: saslprep
     version: 1.0.3
     engines: {node: '>=6'}
@@ -6672,6 +6717,14 @@ packages:
       buffer-from: registry.nlark.com/buffer-from/1.1.2
       source-map: registry.nlark.com/source-map/0.6.1
     dev: true
+
+  registry.npmmirror.com/source-map/0.6.1:
+    resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/source-map/-/source-map-0.6.1.tgz}
+    name: source-map
+    version: 0.6.1
+    engines: {node: '>=0.10.0'}
+    dev: false
+    optional: true
 
   registry.npmmirror.com/spdx-license-ids/3.0.11:
     resolution: {integrity: sha512-Ctl2BrFiM0X3MANYgj3CkygxhRmr9mi6xhejbdO960nF6EDJApTYpn0BQnDKlnNBULKiCN1n3w9EBkHK8ZWg+g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/spdx-license-ids/download/spdx-license-ids-3.0.11.tgz}
@@ -7014,7 +7067,7 @@ packages:
     dev: true
 
   registry.npmmirror.com/uglify-js/3.14.4:
-    resolution: {integrity: sha512-AbiSR44J0GoCeV81+oxcy/jDOElO2Bx3d0MfQCUShq7JRXaM4KtQopZsq2vFv8bCq2yMaGrw1FgygUd03RyRDA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/uglify-js/download/uglify-js-3.14.4.tgz}
+    resolution: {integrity: sha512-AbiSR44J0GoCeV81+oxcy/jDOElO2Bx3d0MfQCUShq7JRXaM4KtQopZsq2vFv8bCq2yMaGrw1FgygUd03RyRDA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/uglify-js/-/uglify-js-3.14.4.tgz}
     name: uglify-js
     version: 3.14.4
     engines: {node: '>=0.8.0'}
