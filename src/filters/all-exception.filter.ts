@@ -14,7 +14,7 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
     response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       code: exception?.code || -1,
       url: request.url,
-      msg: exception?.message || '服务器异常',
+      msg: '服务器异常',
     });
   }
 }

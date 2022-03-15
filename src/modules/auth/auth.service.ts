@@ -38,8 +38,12 @@ export class AuthService {
     }
 
     const user = await this.usersService.find(options).select('+password');
+    if (!user) {
+      throw new BadRequestException(errMsg);
+    }
+
     const isMatch = await this.hashingService.match(password, user.password);
-    if (user && isMatch) {
+    if (isMatch) {
       return user;
     }
     throw new BadRequestException(errMsg);

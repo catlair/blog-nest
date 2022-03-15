@@ -18,6 +18,7 @@ import type { MgReUserType } from '@/types';
 import { ArticleStatusEnum } from '@/enums/article-status.enums';
 import { ResponseException } from '@/exception';
 import { PageSizeQueryDto } from '@/common/dto/pagesize-query.dto';
+import { genObjectId, stringEquals } from '@/utils/mongo';
 
 @Controller('article')
 @ApiTags('文章')
@@ -59,7 +60,7 @@ export class ArticlesController {
     @Param('id') id: string,
     @Body() updateArticleDto: UpdateArticleDto,
     @UserReq() user: MgReUserType,
-  ) {
+  ): Promise<any> {
     return this.articlesService.update(id, updateArticleDto, user);
   }
 
@@ -68,7 +69,7 @@ export class ArticlesController {
   remove(@Param('id') id: string, @UserReq() user: MgReUserType) {
     if (
       (user.roles && user.roles.includes(Role.Admin)) ||
-      user._id.toString() === id
+      stringEquals(user._id, id)
     ) {
       return this.articlesService.remove(id);
     }

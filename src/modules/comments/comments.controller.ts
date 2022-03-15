@@ -10,12 +10,13 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { PageSizeQueryDto } from '../../common/dto/pagesize-query.dto';
+import { PageSizeQueryDto } from '@/common/dto/pagesize-query.dto';
 import { Auth, UserReq } from 'src/decorators';
 import { Role } from 'src/enums/role.enum';
 import type { MgReUserType } from '@/types';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { stringEquals } from '@/utils/mongo';
 
 @Controller('comment')
 @ApiTags('评论')
@@ -28,8 +29,14 @@ export class CommentsController {
     @Body() createCommentDto: CreateCommentDto,
     @UserReq() user: MgReUserType,
   ) {
-    createCommentDto.userId = user._id;
+    createCommentDto.user = user._id;
     return this.commentsService.create(createCommentDto);
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: '获取文章的评论' })
+  async find(@Param('id') id: string, @Query() query: PageSizeQueryDto) {
+    return await this.commentsService.findArticle(id, query.pn, query.ps);
   }
 
   @Get('reply/:id')
@@ -56,7 +63,7 @@ export class CommentsController {
   @Delete(':id')
   @Auth()
   remove(@Param('id') id: string, @UserReq() user: MgReUserType) {
-    if (user._id.toString() === id || user.roles.includes(Role.Admin)) {
+    if (stringEquals(user._id, id) || user.roles.includes(Role.Admin)) {
       return this.commentsService.remove(id);
     }
     throw new BadRequestException();

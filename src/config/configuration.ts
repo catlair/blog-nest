@@ -2,7 +2,7 @@
 const pInt = (key: keyof IndirectEnvType) => parseInt(process.env[key], 10);
 
 const configuration = () => ({
-  port: pInt('SALT') || 3000,
+  port: pInt('PORT') || 3000,
   email: {
     host: process.env.EMAIL_HOST,
     port: pInt('EMAIL_PORT') || 465,

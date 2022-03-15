@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 import {
   ArticleStatusEnum,
   ArticleVisibilityEnum,
-} from '../../../enums/article-status.enums';
+} from '@/enums/article-status.enums';
 
 export type ArticleDocument = Article & mongoose.Document;
 

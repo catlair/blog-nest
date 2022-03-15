@@ -10,7 +10,7 @@ import { CommentsModule } from '../comments/comments.module';
   imports: [
     MongooseModule.forFeature([{ name: Article.name, schema: ArticleSchema }]),
     forwardRef(() => TagsModule),
-    CommentsModule,
+    forwardRef(() => CommentsModule),
   ],
   controllers: [ArticlesController],
   providers: [ArticlesService],

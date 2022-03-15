@@ -9,7 +9,7 @@ export class PageSizeQueryDto {
     required: false,
   })
   @IsNumberString()
-  pn: string;
+  pn: number;
 
   // 每页数量
   @ApiProperty({
@@ -18,7 +18,7 @@ export class PageSizeQueryDto {
     required: false,
   })
   @IsNumberString()
-  ps: string;
+  ps: number;
 
   @ApiProperty({
     description: '排序字段',

@@ -4,7 +4,13 @@
 // 当 type 为 2 时，bid 为必填，pid 无效
 
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDefined, IsEnum, IsString, Length } from 'class-validator';
+import {
+  IsDefined,
+  IsEnum,
+  IsString,
+  Length,
+  ValidateIf,
+} from 'class-validator';
 import { Types } from 'mongoose';
 import { CommentsTypeEnum } from 'src/enums/comments.enums';
 
@@ -17,15 +23,21 @@ export class CreateCommentDto {
   content: string;
 
   // 父 id
+  @ValidateIf((o) => o.type === CommentsTypeEnum.REPLY)
   @IsDefined({ message: '父 id 不能为空' })
   @ApiProperty({ description: '父 id', example: '61addb21a119fbf4a70f6b41' })
-  pid: string | number;
+  pid: string;
 
   // 文章 id
+  @ApiProperty({ description: '文章 id', required: false })
+  @IsDefined({ message: '文章 id 不能为空' })
   aid: string;
 
-  // 页面 id
-  bid: number;
+  // 被回复的用户 id
+  @ValidateIf((o) => o.type === CommentsTypeEnum.REPLY_REPLY)
+  @ApiProperty({ description: '被回复的 id', example: '0' })
+  @IsDefined({ message: '被回复的 id 不能为空' })
+  rid: string;
 
   // 评论还是回复
   @IsEnum(CommentsTypeEnum, { message: 'type 类型非法' })
@@ -34,5 +46,5 @@ export class CreateCommentDto {
   type: number;
 
   // 评论者
-  userId: Types.ObjectId;
+  user: Types.ObjectId;
 }

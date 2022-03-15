@@ -18,6 +18,7 @@ import { Article, ArticleDocument } from './schemas/article.schema';
 import { TagsService } from '../tags/tags.service';
 import { CommentsService } from '../comments/comments.service';
 import { isArray, isBoolean } from '@/utils/is';
+import { stringEquals } from '@/utils/mongo';
 
 @Injectable()
 export class ArticlesService {
@@ -44,6 +45,23 @@ export class ArticlesService {
       await this.tagsService.createMany(noneTags);
     }
     return await this.articleModel.create(createArticleDto);
+  }
+
+  private static fitterForeach(
+    v: any,
+    filterObj: any,
+    tags: any[],
+    status: any[],
+  ) {
+    const [key, value] = v.split(':');
+    if (key === 'category') {
+      filterObj['category'] = value;
+    } else if (key === 'tag' || key === 'tags') {
+      tags.push(value);
+    } else if (key === 'status') {
+      const num = Number(value);
+      !Number.isNaN(num) && status.push(num);
+    }
   }
 
   private findAllHandleQuery(query: any, user?: MgReUserType) {
@@ -81,17 +99,10 @@ export class ArticlesService {
       }
       const tags = [];
       const status = [];
-      $in.forEach((v) => {
-        const [key, value] = v.split(':');
-        if (key === 'category') {
-          fitlerObj['category'] = value;
-        } else if (key === 'tag' || key === 'tags') {
-          tags.push(value);
-        } else if (key === 'status') {
-          const num = Number(value);
-          !Number.isNaN(num) && status.push(num);
-        }
-      });
+
+      $in.forEach((v) =>
+        ArticlesService.fitterForeach(v, fitlerObj, tags, status),
+      );
 
       if (tags.length > 0) {
         fitlerObj['tags'] ||= {};
@@ -109,17 +120,9 @@ export class ArticlesService {
       }
       const tags = [];
       const status = [];
-      $nin.forEach((v) => {
-        const [key, value] = v.split(':');
-        if (key === 'category') {
-          fitlerObj['category'] = value;
-        } else if (key === 'tag' || key === 'tags') {
-          tags.push(value);
-        } else if (key === 'status') {
-          const num = Number(value);
-          !Number.isNaN(num) && status.push(num);
-        }
-      });
+      $nin.forEach((v) =>
+        ArticlesService.fitterForeach(v, fitlerObj, tags, status),
+      );
 
       if (tags.length > 0) {
         fitlerObj['tags'] = { $nin: tags };
@@ -170,8 +173,8 @@ export class ArticlesService {
     };
   }
 
-  async findOne(id: string, user: MgReUserType) {
-    const article = await this.articleModel.findOne({ _id: id });
+  async findOne(id: string, user?: MgReUserType) {
+    const article = (await this.articleModel.findOne({ _id: id })).toJSON();
     if (!article) {
       throw new NotFoundException('文章不存在');
     }
@@ -185,7 +188,10 @@ export class ArticlesService {
 
     switch (article.visibility) {
       case ArticleVisibilityEnum.PUBLIC:
-        return article;
+        return {
+          ...article,
+          content,
+        };
       case ArticleVisibilityEnum.LOGIN:
         if (user && user._id) {
           return {
@@ -214,7 +220,10 @@ export class ArticlesService {
           };
         }
       case ArticleVisibilityEnum.PRIVATE:
-        if (user && user._id === article.author) {
+        if (
+          user &&
+          stringEquals(user._id, article.author as unknown as string)
+        ) {
           return {
             ...article,
             content,
@@ -229,6 +238,11 @@ export class ArticlesService {
       default:
         throw new ResponseException('没有权限', 1004);
     }
+  }
+
+  async findUser(id: string) {
+    const query = await this.articleModel.findOne({ _id: id }).select('author');
+    return query.author;
   }
 
   async findById(id: string) {

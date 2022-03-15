@@ -13,6 +13,7 @@ import { configuration, Configuration } from './config/configuration';
 import { BlogModule } from './modules/blog/blog.module';
 import { EmailModule } from './modules/email/email.module';
 import { APP_GUARD } from '@nestjs/core';
+import { StatisticsModule } from './modules/statistics/statistics.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { APP_GUARD } from '@nestjs/core';
     AuthModule,
     BlogModule,
     EmailModule,
+    StatisticsModule,
   ],
   providers: [
     {

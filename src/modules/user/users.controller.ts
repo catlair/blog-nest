@@ -18,6 +18,7 @@ import { Role } from '../../enums/role.enum';
 import type { MgReType } from '@/types';
 import { User } from './schemas/user.schema';
 import { PageSizeQueryDto } from '../../common/dto/pagesize-query.dto';
+import { stringEquals } from '@/utils/mongo';
 
 @Controller('user')
 @ApiTags('用户')
@@ -72,7 +73,7 @@ export class UsersController {
 
     if (user.roles && user.roles.includes(Role.Admin)) {
       return await this.usersService.update(id, updateUserDto);
-    } else if (user._id.toString() === id) {
+    } else if (stringEquals(id, user._id)) {
       // 无权限修改自己的权限信息
       delete updateUserDto.roles;
       return await this.usersService.update(id, updateUserDto);

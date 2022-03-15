@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { User } from '../../user/schemas/user.schema';
-import { CommentsTypeEnum } from '../../../enums/comments.enums';
+import { CommentsTypeEnum } from '@/enums/comments.enums';
 
 // 导出评论文档
 export type CommentDocument = Comment & Document;
@@ -38,15 +38,15 @@ export class Comment {
   })
   type: number;
 
-  @Prop({ ref: 'Comment' })
-  reply: Comment[];
+  @Prop({ ref: 'Comment', type: Types.ObjectId })
+  reply: Comment;
 
-  @Prop()
-  replyCount: number;
+  @Prop({ ref: 'User', type: Types.ObjectId })
+  rid: User;
 
   // 评论者
   @Prop({ ref: 'User', type: Types.ObjectId })
-  userId: User;
+  user: User;
 }
 
 export const CommentSchema = SchemaFactory.createForClass(Comment);
